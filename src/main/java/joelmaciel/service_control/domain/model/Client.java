@@ -3,6 +3,7 @@ package joelmaciel.service_control.domain.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @EqualsAndHashCode
 public class Client {
 
@@ -29,6 +30,10 @@ public class Client {
     @JsonFormat(pattern = "dd/MM/yyyy")
     @CreationTimestamp
     private OffsetDateTime creationDate;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @UpdateTimestamp
+    private OffsetDateTime updateDate;
 
 
 
