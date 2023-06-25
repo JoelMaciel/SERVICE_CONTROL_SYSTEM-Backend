@@ -9,5 +9,6 @@ public class ServiceControlApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServiceControlApplication.class, args);
 
+
     }
 }
