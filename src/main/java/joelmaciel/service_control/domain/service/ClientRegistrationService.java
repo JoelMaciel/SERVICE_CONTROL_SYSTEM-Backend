@@ -1,5 +1,7 @@
 package joelmaciel.service_control.domain.service;
 
+import joelmaciel.service_control.api.dto.ClientDTO;
+import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.exception.ClientNotFoundException;
 import joelmaciel.service_control.domain.model.Client;
 import joelmaciel.service_control.domain.repository.ClientRepository;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -16,28 +19,31 @@ public class ClientRegistrationService {
 
     private final ClientRepository clientRepository;
 
-    public List<Client> findAllClients() {
-        return clientRepository.findAll();
+    public List<ClientDTO> findAllClients() {
+        List<Client> clients = clientRepository.findAll();
+        return clients.stream().map(client -> ClientDTO.toDTO(client))
+                .collect(Collectors.toList());
     }
 
-    public Client findById(Long clientId) {
-        return searchById(clientId);
+    public ClientDTO findById(Long clientId) {
+        Client client = searchById(clientId);
+        return ClientDTO.toDTO(client);
     }
 
     @Transactional
-    public Client updateClient(Long clientId, @RequestBody Client client) {
+    public ClientDTO updateClient(Long clientId, @RequestBody ClientRequestDTO clientRequestDTO) {
         Client currentClient = searchById(clientId).toBuilder()
-                .name(client.getName())
-                .cpf(client.getCpf())
+                .name(clientRequestDTO.getName())
+                .cpf(clientRequestDTO.getCpf())
                 .build();
 
-        return clientRepository.save(currentClient);
+        return ClientDTO.toDTO(clientRepository.save(currentClient));
     }
 
     @Transactional
-    public Client saveClient(Client client) {
-        Client client1 = new Client();
-        return clientRepository.save(client);
+    public ClientDTO saveClient(ClientRequestDTO clientRequestDTO) {
+        Client client = ClientRequestDTO.toModel(clientRequestDTO);
+        return ClientDTO.toDTO(clientRepository.save(client));
     }
 
     @Transactional
@@ -47,8 +53,8 @@ public class ClientRegistrationService {
     }
 
     public Client searchById(Long clientId) {
-        return clientRepository.findById(clientId).orElseThrow(() ->
-                new ClientNotFoundException(clientId));
+        return clientRepository.findById(clientId).orElseThrow(
+                () -> new ClientNotFoundException(clientId));
     }
 
 }
