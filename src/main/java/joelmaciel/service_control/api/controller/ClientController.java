@@ -1,6 +1,7 @@
 package joelmaciel.service_control.api.controller;
 
-import joelmaciel.service_control.domain.model.Client;
+import joelmaciel.service_control.api.dto.ClientDTO;
+import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.service.ClientRegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,25 +18,25 @@ public class ClientController {
     private final ClientRegistrationService clientRegistrationService;
 
     @GetMapping
-    public List<Client> allClients() {
+    public List<ClientDTO> allClients() {
         return clientRegistrationService.findAllClients();
     }
 
     @GetMapping("/{clientId}")
-    public Client getOne(@PathVariable Long clientId) {
+    public ClientDTO getOne(@PathVariable Long clientId) {
         return clientRegistrationService.findById(clientId);
     }
 
     @PutMapping("/{clientId}")
-    public Client update(@PathVariable Long clientId, @RequestBody @Valid Client client) {
-        return clientRegistrationService.updateClient(clientId, client);
+    public ClientDTO update(@PathVariable Long clientId, @RequestBody @Valid ClientRequestDTO clientRequestDTO) {
+        return clientRegistrationService.updateClient(clientId, clientRequestDTO);
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client save(@RequestBody @Valid Client client) {
-        return clientRegistrationService.saveClient(client);
+    public ClientDTO save(@RequestBody @Valid ClientRequestDTO clientRequestDTO) {
+        return clientRegistrationService.saveClient(clientRequestDTO);
 
     }
 
