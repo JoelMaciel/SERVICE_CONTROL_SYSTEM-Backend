@@ -1,7 +1,7 @@
 package joelmaciel.service_control.domain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,6 +9,9 @@ import java.time.OffsetDateTime;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode
 public class Client {
 
@@ -23,6 +26,7 @@ public class Client {
     @Column(nullable = false, length = 11)
     private String cpf;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @CreationTimestamp
     private OffsetDateTime creationDate;
 
