@@ -3,6 +3,8 @@ package joelmaciel.service_control.domain.service;
 import joelmaciel.service_control.api.dto.ClientDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.exception.ClientNotFoundException;
+import joelmaciel.service_control.domain.exception.CpfAlreadyExistsException;
+import joelmaciel.service_control.domain.exception.EntityInUseException;
 import joelmaciel.service_control.domain.model.Client;
 import joelmaciel.service_control.domain.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,7 @@ public class ClientRegistrationService {
 
     @Transactional
     public ClientDTO saveClient(ClientRequestDTO clientRequestDTO) {
+        validateExistingCpf(clientRequestDTO);
         Client client = ClientRequestDTO.toModel(clientRequestDTO);
         return ClientDTO.toDTO(clientRepository.save(client));
     }
@@ -52,9 +55,16 @@ public class ClientRegistrationService {
         clientRepository.deleteById(clientId);
     }
 
+    private void validateExistingCpf(ClientRequestDTO clientRequestDTO) {
+        if(clientRepository.existsByCpf(clientRequestDTO.getCpf())) {
+            throw new CpfAlreadyExistsException(clientRequestDTO.getCpf());
+        }
+    }
+
     public Client searchById(Long clientId) {
         return clientRepository.findById(clientId).orElseThrow(
                 () -> new ClientNotFoundException(clientId));
     }
+
 
 }
