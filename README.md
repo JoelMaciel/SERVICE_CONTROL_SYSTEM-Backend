@@ -14,13 +14,14 @@ services provided, as well as update and delete this information, among many oth
 
 # Technologies used.
 
-- Java
-- Spring Boot
--  Maven
+- Java , Spring Framework
+- Rest Architecture
+- Maven , MySQL , Flyway
+- Junit 5 - Unit and Integration Tests E2E
 - Spring Security, OAuth2 , JWT
 - Spring Data JPA , Spring Hateoas
 - Swagger , OpenAPI
-- PostgreSQL
+- AWS (ECS, ECR , EC2, RDS)
 
 ## Deploy in production
 
