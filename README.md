@@ -16,7 +16,8 @@ services provided, as well as update and delete this information, among many oth
 
 - Java
 - Spring Boot
--  Maven
+- Maven
+- Junit 5 - Unit and Integration Tests E2E
 - Spring Security, OAuth2 , JWT
 - Spring Data JPA , Spring Hateoas
 - Swagger , OpenAPI
