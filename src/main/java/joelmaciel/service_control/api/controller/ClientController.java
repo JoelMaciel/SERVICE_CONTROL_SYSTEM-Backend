@@ -1,5 +1,6 @@
 package joelmaciel.service_control.api.controller;
 
+import joelmaciel.service_control.api.controller.openapi.ClientControllerOpenApi;
 import joelmaciel.service_control.api.dto.ClientDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.service.ClientRegistrationService;
@@ -14,7 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/clients")
-public class ClientController {
+public class ClientController implements ClientControllerOpenApi {
 
     private final ClientRegistrationService clientRegistrationService;
 
