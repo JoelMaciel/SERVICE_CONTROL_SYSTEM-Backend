@@ -16,11 +16,10 @@ services provided, as well as update and delete this information, among many oth
 
 - Java , Spring Framework
 - Rest Architecture
-- Maven , MySQL , Flyway
+- Maven , JPA , MySQL , Flyway
 - Junit 5 - Unit and Integration Tests E2E
 - Spring Security, OAuth2 , JWT
-- Spring Data JPA , Spring Hateoas
-- Swagger , OpenAPI
+- Swagger , OpenAPI ,  Spring Hateoas
 - AWS (ECS, ECR , EC2, RDS)
 
 ## Deploy in production
