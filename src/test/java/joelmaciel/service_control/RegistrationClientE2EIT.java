@@ -5,7 +5,7 @@ import io.restassured.http.ContentType;
 import joelmaciel.service_control.api.dto.ClientDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.repository.ClientRepository;
-import joelmaciel.service_control.domain.service.ClientRegistrationService;
+import joelmaciel.service_control.domain.service.RegistrationClientService;
 import joelmaciel.service_control.util.DatabaseCleaner;
 import joelmaciel.service_control.util.ResourceUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +41,7 @@ public class RegistrationClientE2EIT {
     private  ClientRepository clientRepository;
 
     @Autowired
-    private  ClientRegistrationService clientService;
+    private RegistrationClientService clientService;
 
     @Autowired
     private DatabaseCleaner databaseCleaner;

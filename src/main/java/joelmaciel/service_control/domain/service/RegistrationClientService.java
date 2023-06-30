@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class ClientRegistrationService {
+public class RegistrationClientService {
 
     private final ClientRepository clientRepository;
 
