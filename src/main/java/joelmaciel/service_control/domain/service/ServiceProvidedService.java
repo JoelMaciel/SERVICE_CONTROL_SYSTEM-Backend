@@ -23,7 +23,6 @@ public class ServiceProvidedService {
     public ServiceProvidedDTO save(ServiceProvidedRequestDTO serviceProvidedDTO) {
 
         Client client = clientService.searchById(serviceProvidedDTO.getClientId().getId());
-        System.out.println(client);
         ServiceProvided serviceProvided = ServiceProvidedRequestDTO.toModel(serviceProvidedDTO)
                 .toBuilder().client(client).build();
 
