@@ -4,7 +4,6 @@ import joelmaciel.service_control.api.dto.ClientDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.exception.ClientNotFoundException;
 import joelmaciel.service_control.domain.exception.CpfAlreadyExistsException;
-import joelmaciel.service_control.domain.exception.EntityInUseException;
 import joelmaciel.service_control.domain.model.Client;
 import joelmaciel.service_control.domain.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;

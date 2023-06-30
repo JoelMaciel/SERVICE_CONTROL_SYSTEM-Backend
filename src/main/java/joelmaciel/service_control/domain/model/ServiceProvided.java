@@ -1,15 +1,20 @@
 package joelmaciel.service_control.domain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
-@Entity
+
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @EqualsAndHashCode
-public class Service {
+@Entity
+public class ServiceProvided {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +26,10 @@ public class Service {
 
     @Column(nullable = false)
     private BigDecimal price;
+
+    @Column(nullable = false)
+    @CreationTimestamp
+    private OffsetDateTime creationDate;
 
     @ManyToOne
     @JoinColumn(name = "clientId")
