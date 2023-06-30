@@ -2,12 +2,12 @@ package joelmaciel.service_control.api.controller;
 
 import joelmaciel.service_control.api.dto.ServiceProvidedDTO;
 import joelmaciel.service_control.api.dto.request.ServiceProvidedRequestDTO;
-import joelmaciel.service_control.domain.model.ServiceProvided;
 import joelmaciel.service_control.domain.service.ServiceProvidedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class ServiceProvidedController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ServiceProvidedDTO save(@RequestBody ServiceProvidedRequestDTO serviceProvidedRequestDTO) {
+    public ServiceProvidedDTO save(@RequestBody @Valid ServiceProvidedRequestDTO serviceProvidedRequestDTO) {
         return serviceProvidedService.save(serviceProvidedRequestDTO);
     }
 }

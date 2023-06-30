@@ -7,12 +7,13 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@Entity
+
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode
+@Entity
 public class ServiceProvided {
 
     @Id
