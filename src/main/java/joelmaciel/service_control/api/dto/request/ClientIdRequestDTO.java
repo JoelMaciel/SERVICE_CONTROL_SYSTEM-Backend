@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 public class ClientIdRequestDTO {

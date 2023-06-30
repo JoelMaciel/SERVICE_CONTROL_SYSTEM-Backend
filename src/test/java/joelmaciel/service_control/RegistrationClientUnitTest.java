@@ -1,11 +1,10 @@
 package joelmaciel.service_control;
 
-import joelmaciel.service_control.api.dto.ClientDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.exception.ClientNotFoundException;
 import joelmaciel.service_control.domain.model.Client;
 import joelmaciel.service_control.domain.repository.ClientRepository;
-import joelmaciel.service_control.domain.service.ClientRegistrationService;
+import joelmaciel.service_control.domain.service.RegistrationClientService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RegistrationClientUnitTest {
 
     @Autowired
-    private ClientRegistrationService clientRegistrationService;
+    private RegistrationClientService registrationClientService;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -45,7 +44,7 @@ public class RegistrationClientUnitTest {
                 .name("Alex Mario")
                 .cpf("39669067081")
                 .build();
-        clientRegistrationService.saveClient(client);
+        registrationClientService.saveClient(client);
 
         assertThat(client).isNotNull();
         assertThat(client.getCpf()).isNotNull();
@@ -60,7 +59,7 @@ public class RegistrationClientUnitTest {
 
         DataIntegrityViolationException expectedError = Assertions.assertThrows(DataIntegrityViolationException.class,
                 () -> {
-                    clientRegistrationService.saveClient(client);
+                    registrationClientService.saveClient(client);
                 });
         assertThat(expectedError).isNotNull();
     }
@@ -69,7 +68,7 @@ public class RegistrationClientUnitTest {
     public void shouldFailedToDeleteAClientThatDoesNotExist() {
         ClientNotFoundException expectedError = Assertions.assertThrows(ClientNotFoundException.class,
                 () -> {
-                    clientRegistrationService.removeClient(10L);
+                    registrationClientService.removeClient(10L);
                 });
 
         assertThat(expectedError).isNotNull();

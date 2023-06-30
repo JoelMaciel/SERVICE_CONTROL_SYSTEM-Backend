@@ -5,7 +5,7 @@ import io.restassured.http.ContentType;
 import joelmaciel.service_control.api.dto.ClientDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.repository.ClientRepository;
-import joelmaciel.service_control.domain.service.ClientRegistrationService;
+import joelmaciel.service_control.domain.service.RegistrationClientService;
 import joelmaciel.service_control.util.DatabaseCleaner;
 import joelmaciel.service_control.util.ResourceUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,6 +26,7 @@ public class RegistrationClientE2EIT {
 
     private static final String INVALID_DATA = "Invalid Data";
     private static final Long CLIENT_ID_NOT_EXISTENT = 100L;
+    private static final String CLIENT_NOT_FOUND = "Resource Not Found";
 
     @LocalServerPort
     private int port;
@@ -42,7 +43,7 @@ public class RegistrationClientE2EIT {
     private  ClientRepository clientRepository;
 
     @Autowired
-    private  ClientRegistrationService clientService;
+    private RegistrationClientService clientService;
 
     @Autowired
     private DatabaseCleaner databaseCleaner;
@@ -61,16 +62,12 @@ public class RegistrationClientE2EIT {
                 "/json/incorrect/client-invalid-cpf.json"
         );
 
-        jsonClientWhitInvalidCpf = ResourceUtils.getContentFromResource(
-                "json/incorrect/client-invalid-cpf.json"
-        );
-
         jsonClientWithNullCpf = ResourceUtils.getContentFromResource(
-                "json/incorrect/client-null-cpf.json"
+                "/json/incorrect/client-null-cpf.json"
         );
 
         jsonClientWithNullName = ResourceUtils.getContentFromResource(
-                "json/incorrect/client-null-name.json"
+                "/json/incorrect/client-null-name.json"
         );
 
         databaseCleaner.clearTables();
@@ -84,6 +81,7 @@ public class RegistrationClientE2EIT {
               .when()
                 .get()
               .then().statusCode(HttpStatus.OK.value());
+
     }
 
     @Test
@@ -105,7 +103,9 @@ public class RegistrationClientE2EIT {
               .when()
                 .post()
               .then()
-                .statusCode(HttpStatus.CREATED.value());
+                .statusCode(HttpStatus.CREATED.value())
+                .body("name", equalTo("Aloisio Martins"));
+
     }
 
     @Test
@@ -116,7 +116,8 @@ public class RegistrationClientE2EIT {
               .when()
                 .get("/{clientId}")
               .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .body("title",equalTo(CLIENT_NOT_FOUND));
     }
 
     @Test
@@ -128,7 +129,8 @@ public class RegistrationClientE2EIT {
               .when()
                 .post()
               .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("title", equalTo(INVALID_DATA));
     }
 
     @Test
@@ -140,7 +142,8 @@ public class RegistrationClientE2EIT {
               .when()
                 .post()
               .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("title", equalTo(INVALID_DATA));
 
     }
 
@@ -153,7 +156,8 @@ public class RegistrationClientE2EIT {
               .when()
                 .post()
               .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("title",equalTo(INVALID_DATA));
     }
 
 
