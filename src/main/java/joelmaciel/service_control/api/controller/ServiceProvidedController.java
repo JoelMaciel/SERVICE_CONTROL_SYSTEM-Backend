@@ -1,5 +1,6 @@
 package joelmaciel.service_control.api.controller;
 
+import joelmaciel.service_control.api.controller.openapi.ServiceProvideControllerOpenApi;
 import joelmaciel.service_control.api.dto.ServiceProvidedDTO;
 import joelmaciel.service_control.api.dto.request.ServiceProvidedRequestDTO;
 import joelmaciel.service_control.domain.service.RegistrationServiceProvidedService;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/services-provided")
-public class ServiceProvidedController {
+public class ServiceProvidedController  implements ServiceProvideControllerOpenApi {
 
     private final RegistrationServiceProvidedService registrationServiceProvidedService;
 

@@ -46,7 +46,8 @@ public class SpringFoxConfig {
                 .additionalModels(typeResolver.resolve(Problem.class))
 //                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .apiInfo(apiInfo())
-                .tags(new Tag("Clients", "System Control"));
+                .tags(new Tag("Clients", "Client Registration"))
+                .tags(new Tag("Service Provided", "Control of Services Provided"));
 
 
     }

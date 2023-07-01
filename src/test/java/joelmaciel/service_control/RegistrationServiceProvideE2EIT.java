@@ -102,7 +102,7 @@ public class RegistrationServiceProvideE2EIT {
         given()
                 .accept(ContentType.JSON)
               .when()
-                .get("?month=6&name=")
+                .get("?month=7&name=")
               .then()
                 .body("", hasSize(quantityClientsRegistered));
     }

@@ -1,14 +1,9 @@
 package joelmaciel.service_control;
 
-import joelmaciel.service_control.api.dto.ServiceProvidedDTO;
 import joelmaciel.service_control.api.dto.request.ClientIdRequestDTO;
-import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.api.dto.request.ServiceProvidedRequestDTO;
 import joelmaciel.service_control.domain.exception.ClientNotFoundException;
-import joelmaciel.service_control.domain.model.Client;
-import joelmaciel.service_control.domain.repository.ClientRepository;
 import joelmaciel.service_control.domain.repository.ServiceProvidedRepository;
-import joelmaciel.service_control.domain.service.RegistrationClientService;
 import joelmaciel.service_control.domain.service.RegistrationServiceProvidedService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,22 +25,6 @@ public class RegistrationServiceProvidedUnitTest {
 
     @Autowired
     private ServiceProvidedRepository serviceProvidedRepository;
-
-//    @Test
-//    public void shouldSucceedWhenFetchingClientById() {
-//        ClientRequestDTO clientDTO = ClientRequestDTO.builder()
-//                .name("Joel")
-//                .cpf("28816044047")
-//                .build();
-//        Client client = ClientRequestDTO.toModel(clientDTO);
-//        clientRepository.save(client);
-//        Long clientId = client.getId();
-//
-//        Client foundClient = clientRepository.findById(clientId).orElse(null);
-//
-//        Assertions.assertNotNull(foundClient);
-//        Assertions.assertEquals("Joel", foundClient.getName());
-//    }
 
     @Test
     public void shouldSuccessfullyRegisterServiceProvided() {
