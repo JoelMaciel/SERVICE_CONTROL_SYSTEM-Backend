@@ -1,5 +1,6 @@
 package joelmaciel.service_control.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import joelmaciel.service_control.domain.model.ServiceProvided;
 import lombok.*;
 
@@ -15,6 +16,8 @@ public class ServiceProvidedDTO {
     private Long id;
     private String description;
     private BigDecimal price;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private OffsetDateTime creationDate;
     private ClientDTO client;
 
