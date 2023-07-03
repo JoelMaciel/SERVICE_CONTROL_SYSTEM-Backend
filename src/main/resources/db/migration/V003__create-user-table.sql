@@ -1,0 +1,7 @@
+CREATE TABLE user (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(30) NOT NULL CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 40),
+
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
