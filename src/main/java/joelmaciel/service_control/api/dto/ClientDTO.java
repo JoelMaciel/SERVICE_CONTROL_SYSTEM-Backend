@@ -14,8 +14,9 @@ import java.time.OffsetDateTime;
 public class ClientDTO {
 
     private Long id;
-    private String name;
+    private String username;
     private String cpf;
+    private String email;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private OffsetDateTime creationDate;
@@ -27,7 +28,8 @@ public class ClientDTO {
         return ClientDTO.builder()
                 .id(client.getId())
                 .cpf(client.getCpf())
-                .name(client.getName())
+                .username(client.getUsername())
+                .email(client.getEmail())
                 .creationDate(client.getCreationDate())
                 .updateDate(client.getUpdateDate())
                 .build();

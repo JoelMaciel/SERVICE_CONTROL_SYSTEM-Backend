@@ -1,0 +1,8 @@
+ALTER TABLE client
+ADD COLUMN email VARCHAR(60) NULL AFTER cpf,
+ADD COLUMN password VARCHAR(255) NOT NULL CHECK (LENGTH(password) >= 8 AND LENGTH(password) <= 255) NULL AFTER email,
+CHANGE COLUMN name username VARCHAR(30) NOT NULL,
+ADD UNIQUE (username),
+ADD UNIQUE (email);
+
+DROP TABLE user;

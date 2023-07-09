@@ -12,6 +12,6 @@ import java.util.List;
 public interface ServiceProvidedRepository extends JpaRepository<ServiceProvided, Long> {
 
     @Query("select s from ServiceProvided s join s.client c " +
-    " where upper( c.name ) like upper( :name ) and MONTH(s.creationDate) =:month ")
-    List<ServiceProvided> findByNameClientAndMonth(@Param("name") String name, @Param("month") Integer month);
+    " where upper( c.username ) like upper( :username ) and MONTH(s.creationDate) =:month ")
+    List<ServiceProvided> findByNameClientAndMonth(@Param("username") String username, @Param("month") Integer month);
 }
