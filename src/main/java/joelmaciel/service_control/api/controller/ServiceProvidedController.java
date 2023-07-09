@@ -6,6 +6,7 @@ import joelmaciel.service_control.api.dto.request.ServiceProvidedRequestDTO;
 import joelmaciel.service_control.domain.service.RegistrationServiceProvidedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,12 +20,14 @@ public class ServiceProvidedController  implements ServiceProvideControllerOpenA
     private final RegistrationServiceProvidedService registrationServiceProvidedService;
 
     @GetMapping
-    public List<ServiceProvidedDTO> getAll(@RequestParam(value = "name", required = false, defaultValue = "") String name,
+    @PreAuthorize("hasAnyRole('USER')")
+    public List<ServiceProvidedDTO> getAll(@RequestParam(value = "username", required = false, defaultValue = "") String username,
                                         @RequestParam(value = "month", required = false) Integer month) {
-        return registrationServiceProvidedService.findByNameClientAndMonth(name, month);
+        return registrationServiceProvidedService.findByNameClientAndMonth(username, month);
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public ServiceProvidedDTO save(@RequestBody @Valid ServiceProvidedRequestDTO serviceProvidedRequestDTO) {
         return registrationServiceProvidedService.save(serviceProvidedRequestDTO);
