@@ -3,7 +3,6 @@ package joelmaciel.service_control.api.dto.validator;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.domain.exception.CpfAlreadyExistsException;
 import joelmaciel.service_control.domain.exception.EmailAlreadyExistsException;
-import joelmaciel.service_control.domain.exception.UsernameAlreadyExistsException;
 import joelmaciel.service_control.domain.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,11 +19,6 @@ public class ClientValidator {
         }
     }
 
-    public void validateUsername(ClientRequestDTO clientRequestDTO) {
-        if (clientRepository.existsByUsername(clientRequestDTO.getUsername())) {
-            throw new UsernameAlreadyExistsException(clientRequestDTO.getUsername());
-        }
-    }
     public void validateEmail(ClientRequestDTO clientRequestDTO) {
         if (clientRepository.existsByEmail(clientRequestDTO.getEmail())) {
             throw new EmailAlreadyExistsException(clientRequestDTO.getEmail());

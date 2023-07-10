@@ -1,6 +1,7 @@
 package joelmaciel.service_control.api.dto.request;
 
 import joelmaciel.service_control.domain.model.Client;
+import joelmaciel.service_control.domain.model.User;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -13,24 +14,28 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientRequestDTO {
+public class UserRequestDTO {
 
     @NotBlank
-    private String name;
+    private String username;
 
     @CPF
-    @NotNull
+    @NotBlank
     private String cpf;
 
     @NotBlank
     @Email
     private String email;
 
-    public static Client toModel(ClientRequestDTO clientRequestDTO) {
-        return Client.builder()
-                .name(clientRequestDTO.getName())
-                .cpf(clientRequestDTO.getCpf())
-                .email(clientRequestDTO.getEmail())
+    @NotBlank
+    private String password;
+
+    public static User toModel(UserRequestDTO userRequestDTO) {
+        return User.builder()
+                .username(userRequestDTO.getUsername())
+                .cpf(userRequestDTO.getCpf())
+                .email(userRequestDTO.getEmail())
+                .password(userRequestDTO.getPassword())
                 .build();
     }
 

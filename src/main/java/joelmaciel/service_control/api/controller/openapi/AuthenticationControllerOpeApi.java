@@ -2,25 +2,21 @@ package joelmaciel.service_control.api.controller.openapi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import joelmaciel.service_control.api.dto.ClientDTO;
-import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
+import joelmaciel.service_control.api.dto.UserDTO;
+import joelmaciel.service_control.api.dto.request.UserRequestDTO;
 import joelmaciel.service_control.api.security.dto.JwtDTO;
 import joelmaciel.service_control.api.security.dto.LoginDTO;
-import joelmaciel.service_control.domain.service.RegistrationClientService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
 @Api(tags = "Authentication")
 public interface AuthenticationControllerOpeApi {
 
-    @ApiOperation("Save a client")
-    ClientDTO registerClient(@RequestBody @Valid ClientRequestDTO clientRequestDTO);
+    @ApiOperation("Save a user")
+    public UserDTO registerUser(@RequestBody @Valid UserRequestDTO userRequestDTO);
 
 
-    @ApiOperation("Client login")
-    JwtDTO authenticationClient(@RequestBody @Valid LoginDTO loginDTO) ;
+    @ApiOperation("User login")
+    public JwtDTO authenticationUser(@RequestBody @Valid LoginDTO loginDTO) ;
 }

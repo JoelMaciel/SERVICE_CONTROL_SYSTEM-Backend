@@ -1,6 +1,7 @@
 package joelmaciel.service_control.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -15,7 +18,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @EqualsAndHashCode
-public class Client {
+public class User {
 
     @Id
     @EqualsAndHashCode.Include
@@ -23,13 +26,16 @@ public class Client {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(nullable = false)
     private String cpf;
 
     @Email
     private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @CreationTimestamp
@@ -39,6 +45,12 @@ public class Client {
     @UpdateTimestamp
     private OffsetDateTime updateDate;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
 
 }

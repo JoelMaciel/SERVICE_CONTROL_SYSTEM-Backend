@@ -1,11 +1,11 @@
 package joelmaciel.service_control.api.controller;
 
 import joelmaciel.service_control.api.controller.openapi.AuthenticationControllerOpeApi;
-import joelmaciel.service_control.api.dto.ClientDTO;
-import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
+import joelmaciel.service_control.api.dto.UserDTO;
+import joelmaciel.service_control.api.dto.request.UserRequestDTO;
 import joelmaciel.service_control.api.security.dto.JwtDTO;
 import joelmaciel.service_control.api.security.dto.LoginDTO;
-import joelmaciel.service_control.domain.service.RegistrationClientService;
+import joelmaciel.service_control.domain.service.RegistrationUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,19 +18,20 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthenticationController implements AuthenticationControllerOpeApi {
 
-    private final RegistrationClientService clientService;
+    private final RegistrationUserService  userService;
 
     @PostMapping("/signup")
-    @PreAuthorize("hasAnyRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientDTO registerClient(@RequestBody @Valid ClientRequestDTO clientRequestDTO) {
-        return clientService.saveClient(clientRequestDTO);
+    public UserDTO registerUser(@RequestBody @Valid UserRequestDTO userRequestDTO) {
+        return userService.saveUser(userRequestDTO);
 
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public JwtDTO authenticationClient(@RequestBody @Valid LoginDTO loginDTO) {
-       return clientService.authenticationUserLogin(loginDTO);
+    public JwtDTO authenticationUser(@RequestBody @Valid LoginDTO loginDTO) {
+       return userService.authenticationUserLogin(loginDTO);
     }
+
+
 }

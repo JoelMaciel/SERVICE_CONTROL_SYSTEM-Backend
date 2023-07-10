@@ -1,4 +1,4 @@
-CREATE TABLE roles (
+CREATE TABLE role (
   role_id bigint NOT NULL,
   role_name varchar(30) NOT NULL,
 

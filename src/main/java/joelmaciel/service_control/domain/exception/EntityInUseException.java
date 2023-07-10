@@ -5,4 +5,5 @@ public class EntityInUseException extends BusinessException {
         super(message);
     }
 
+
 }
