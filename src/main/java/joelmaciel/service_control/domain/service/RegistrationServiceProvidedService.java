@@ -29,8 +29,8 @@ public class RegistrationServiceProvidedService {
         return ServiceProvidedDTO.toDTO(serviceProvidedRepository.save(serviceProvided));
     }
 
-    public List<ServiceProvidedDTO> findByNameClientAndMonth(String username, Integer month) {
-        List<ServiceProvided> servicesProvided = serviceProvidedRepository.findByNameClientAndMonth("%" + username + "%", month);
+    public List<ServiceProvidedDTO> findByNameClientAndMonth(String name, Integer month) {
+        List<ServiceProvided> servicesProvided = serviceProvidedRepository.findByNameClientAndMonth("%" + name + "%", month);
         return servicesProvided.stream().map(serviceProvided -> ServiceProvidedDTO.toDTO(serviceProvided))
                 .collect(Collectors.toList());
 

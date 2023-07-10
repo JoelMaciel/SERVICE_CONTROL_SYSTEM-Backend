@@ -10,14 +10,13 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientRequestUpdateDTO {
+public class UserRequestUpdateDTO {
 
     @NotBlank
-    private String name;
+    private String username;
 
     @NotBlank
     @Email
     private String email;
-
 
 }

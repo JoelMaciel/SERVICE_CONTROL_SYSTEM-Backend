@@ -2,7 +2,6 @@ package joelmaciel.service_control.api.controller;
 
 import joelmaciel.service_control.api.controller.openapi.ClientControllerOpenApi;
 import joelmaciel.service_control.api.dto.ClientDTO;
-import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestUpdateDTO;
 import joelmaciel.service_control.domain.service.RegistrationClientService;
 import lombok.RequiredArgsConstructor;

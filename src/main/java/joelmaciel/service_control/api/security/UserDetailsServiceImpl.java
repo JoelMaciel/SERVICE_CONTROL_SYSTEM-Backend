@@ -1,7 +1,9 @@
 package joelmaciel.service_control.api.security;
 
 import joelmaciel.service_control.domain.model.Client;
+import joelmaciel.service_control.domain.model.User;
 import joelmaciel.service_control.domain.repository.ClientRepository;
+import joelmaciel.service_control.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,18 +14,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Client client = clientRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Client Not Found with email: " + username));
-        return UserDetailsImpl.toUserDetailsImpl(client);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + username));
+        return UserDetailsImpl.toUserDetailsImpl(user);
     }
 
-    public UserDetails loadUserById(Long clientId) throws AuthenticationCredentialsNotFoundException {
-        Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("Client Not Found with userId: " + clientId));
-        return UserDetailsImpl.toUserDetailsImpl(client);
+    public UserDetails loadUserById(Long userId) throws AuthenticationCredentialsNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("User Not Found with userId: " + userId));
+        return UserDetailsImpl.toUserDetailsImpl(user);
     }
 }

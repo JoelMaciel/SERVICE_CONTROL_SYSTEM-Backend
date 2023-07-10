@@ -31,6 +31,10 @@ public class ServiceProvided {
     @CreationTimestamp
     private OffsetDateTime creationDate;
 
+    @Column(nullable = false)
+    @CreationTimestamp
+    private OffsetDateTime updateDate;
+
     @ManyToOne
     @JoinColumn(name = "clientId")
     private Client client;

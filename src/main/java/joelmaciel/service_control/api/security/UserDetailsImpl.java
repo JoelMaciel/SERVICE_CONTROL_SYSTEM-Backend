@@ -2,6 +2,7 @@ package joelmaciel.service_control.api.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import joelmaciel.service_control.domain.model.Client;
+import joelmaciel.service_control.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,15 +26,15 @@ public class UserDetailsImpl implements UserDetails {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl toUserDetailsImpl(Client client) {
-        List<GrantedAuthority> authorities = client.getRoles().stream()
+    public static UserDetailsImpl toUserDetailsImpl(User user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
                 .collect(Collectors.toList());
         return UserDetailsImpl.builder()
-                .userId(client.getId())
-                .username(client.getUsername())
-                .password(client.getPassword())
-                .email(client.getEmail())
+                .userId(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .email(user.getEmail())
                 .authorities(authorities)
                 .build();
     }

@@ -21,9 +21,9 @@ public class ServiceProvidedController  implements ServiceProvideControllerOpenA
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER')")
-    public List<ServiceProvidedDTO> getAll(@RequestParam(value = "username", required = false, defaultValue = "") String username,
+    public List<ServiceProvidedDTO> getAll(@RequestParam(value = "name", required = false, defaultValue = "") String name,
                                         @RequestParam(value = "month", required = false) Integer month) {
-        return registrationServiceProvidedService.findByNameClientAndMonth(username, month);
+        return registrationServiceProvidedService.findByNameClientAndMonth(name, month);
     }
 
     @PostMapping
