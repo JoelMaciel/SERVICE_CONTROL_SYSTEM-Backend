@@ -4,21 +4,28 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import joelmaciel.service_control.api.dto.ClientDTO;
 import joelmaciel.service_control.api.dto.ServiceProvidedDTO;
+import joelmaciel.service_control.api.dto.UserDTO;
 import joelmaciel.service_control.api.dto.request.ClientIdRequestDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.api.dto.request.ServiceProvidedRequestDTO;
+import joelmaciel.service_control.api.security.dto.LoginDTO;
+import joelmaciel.service_control.domain.repository.ClientRepository;
 import joelmaciel.service_control.domain.repository.ServiceProvidedRepository;
+import joelmaciel.service_control.domain.repository.UserRepository;
 import joelmaciel.service_control.domain.service.RegistrationClientService;
 import joelmaciel.service_control.domain.service.RegistrationServiceProvidedService;
+import joelmaciel.service_control.domain.service.RoleService;
 import joelmaciel.service_control.util.DatabaseCleaner;
+import joelmaciel.service_control.util.LoginData;
 import joelmaciel.service_control.util.ResourceUtils;
+import joelmaciel.service_control.util.TokenUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 
 import java.math.BigDecimal;
@@ -29,36 +36,40 @@ import static org.hamcrest.Matchers.hasSize;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
-public class RegistrationServiceProvideE2EIT {
+public class RegistrationServiceProvideIT {
 
     private static final String INVALID_DATA = "Invalid Data";
-
     private static final String CLIENT_NOT_FOUND = "Resource Not Found";
-    private static final Long CLIENT_ID_NOT_EXISTENT = 100L;
 
     @LocalServerPort
     private int port;
-
+    private String token;
+    private LoginDTO loginDTO;
     private ServiceProvidedDTO serviceProvidedDTO;
     private int quantityClientsRegistered;
     private String jsonCorrectServiceProvided;
+    private String jsonLoginCorrect;
     private String jsonCorrectServiceProvidedtWithoutPrice;
-
     private String jsonServiceProvidedNotPassClientId;
-
     private String jsonCorrectServiceProvidedtWithoutDescription;
     private String jsonServiceProvidedNotFoundClientId;
     @Autowired
     private  RegistrationClientService clientService;
-
     @Autowired
     private ServiceProvidedRepository serviceProvidedRepository;
-
     @Autowired
     private RegistrationServiceProvidedService registrationServiceProvidedService;
-
     @Autowired
     private DatabaseCleaner databaseCleaner;
+    private UserDTO userDTO;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     public void setUp() {
@@ -85,6 +96,11 @@ public class RegistrationServiceProvideE2EIT {
                 "/json/incorrect/service-provided-without-description.json"
         );
 
+        jsonLoginCorrect = ResourceUtils.getContentFromResource(
+                "/json/correct/login-dto.json"
+        );
+
+        token = TokenUtils.getToken(port, jsonLoginCorrect);
         databaseCleaner.clearTables();
         prepareData();
     }
@@ -93,6 +109,7 @@ public class RegistrationServiceProvideE2EIT {
     public void shouldReturnStatus200_WhenConsultingServiceProvided() {
         given()
                 .accept(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
               .when()
                 .get()
               .then().statusCode(HttpStatus.OK.value());
@@ -102,6 +119,7 @@ public class RegistrationServiceProvideE2EIT {
     public void shouldReturnCorrectQuantityOfServiceProvided_WhenConsultingServiceProvided() {
         given()
                 .accept(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
               .when()
                 .get("?month=7&name=")
               .then()
@@ -113,6 +131,7 @@ public class RegistrationServiceProvideE2EIT {
         given()
                 .body(jsonCorrectServiceProvided)
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
               .when()
                 .post()
@@ -127,6 +146,7 @@ public class RegistrationServiceProvideE2EIT {
         given()
                 .body(jsonServiceProvidedNotFoundClientId)
                 .accept(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
               .when()
                 .post()
@@ -140,6 +160,7 @@ public class RegistrationServiceProvideE2EIT {
         given()
                 .body(jsonServiceProvidedNotPassClientId)
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
               .when()
                 .post()
@@ -153,6 +174,7 @@ public class RegistrationServiceProvideE2EIT {
         given()
                 .body(jsonCorrectServiceProvidedtWithoutPrice)
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
               .when()
                 .post()
@@ -166,6 +188,7 @@ public class RegistrationServiceProvideE2EIT {
         given()
                 .body(jsonCorrectServiceProvidedtWithoutDescription)
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
               .when()
                 .post()
@@ -176,6 +199,12 @@ public class RegistrationServiceProvideE2EIT {
     }
 
     private void prepareData() {
+
+        LoginData loginData = new LoginData(roleService, userRepository, passwordEncoder);
+        loginData.initializeRoles();
+        userDTO = loginData.createUser();
+        loginDTO = loginData.createLogin();
+
         ClientIdRequestDTO clientIdRequestDTO = ClientIdRequestDTO.builder()
                 .id(1L)
                 .build();
@@ -183,6 +212,7 @@ public class RegistrationServiceProvideE2EIT {
         ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()
                 .name("Sampaio")
                 .cpf("53366221097")
+                .email("test@test.com")
                 .build();
 
       ClientDTO client = clientService.saveClient(clientRequestDTO);

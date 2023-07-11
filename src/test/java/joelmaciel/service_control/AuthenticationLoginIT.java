@@ -25,7 +25,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
-public class LoginIT {
+public class AuthenticationLoginIT {
 
     private static final String INVALID_DATA = "Incorrect username or password.";
     private static final String INVALID_FIELDS = "One or more fields are invalid. Fill in the correct form and try again.";

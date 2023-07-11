@@ -36,10 +36,8 @@ public class RegistrationClientIT {
     private static final Long CLIENT_ID_NOT_EXISTENT = 100L;
     private static final String CLIENT_NOT_FOUND = "Resource Not Found";
 
-
     @LocalServerPort
     private int port;
-
     private ClientDTO clientDTO;
     private LoginDTO loginDTO;
 
