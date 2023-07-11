@@ -1,10 +1,10 @@
 package joelmaciel.service_control.api.security.dto;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class JwtDTO {
 

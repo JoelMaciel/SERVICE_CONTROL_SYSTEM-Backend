@@ -2,6 +2,7 @@ package joelmaciel.service_control.api.controller;
 
 import joelmaciel.service_control.api.controller.openapi.ClientControllerOpenApi;
 import joelmaciel.service_control.api.dto.ClientDTO;
+import joelmaciel.service_control.api.dto.request.ClientRequestDTO;
 import joelmaciel.service_control.api.dto.request.ClientRequestUpdateDTO;
 import joelmaciel.service_control.domain.service.RegistrationClientService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
+
 @RestController
 @RequestMapping("/api/clients")
 public class ClientController implements ClientControllerOpenApi {
@@ -35,6 +37,13 @@ public class ClientController implements ClientControllerOpenApi {
     @PreAuthorize("hasAnyRole('USER')")
     public ClientDTO update(@PathVariable Long clientId, @RequestBody @Valid ClientRequestUpdateDTO clientRequestDTO) {
         return registrationClientService.updateClient(clientId, clientRequestDTO);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAnyRole('USER')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClientDTO saveClient(@RequestBody @Valid ClientRequestDTO clientRequestDTO) {
+        return registrationClientService.saveClient(clientRequestDTO);
     }
 
 

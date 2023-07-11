@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class Role implements GrantedAuthority, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;
 
     @Enumerated(EnumType.STRING)
