@@ -14,20 +14,19 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@PreAuthorize("hasAnyRole('USER')")
 @RequestMapping("/api/services-provided")
 public class ServiceProvidedController  implements ServiceProvideControllerOpenApi {
 
     private final RegistrationServiceProvidedService registrationServiceProvidedService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER')")
     public List<ServiceProvidedDTO> getAll(@RequestParam(value = "name", required = false, defaultValue = "") String name,
                                         @RequestParam(value = "month", required = false) Integer month) {
         return registrationServiceProvidedService.findByNameClientAndMonth(name, month);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public ServiceProvidedDTO save(@RequestBody @Valid ServiceProvidedRequestDTO serviceProvidedRequestDTO) {
         return registrationServiceProvidedService.save(serviceProvidedRequestDTO);

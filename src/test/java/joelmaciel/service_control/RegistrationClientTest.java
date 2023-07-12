@@ -14,7 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class RegistrationClientUnitTest {
+public class RegistrationClientTest {
 
     @Autowired
     private RegistrationClientService registrationClientService;
@@ -27,6 +27,7 @@ public class RegistrationClientUnitTest {
         ClientRequestDTO clientDTO = ClientRequestDTO.builder()
                 .name("Joel")
                 .cpf("28816044047")
+                .email("joel02@bol.com")
                 .build();
         Client client = ClientRequestDTO.toModel(clientDTO);
         clientRepository.save(client);
@@ -43,11 +44,14 @@ public class RegistrationClientUnitTest {
         ClientRequestDTO client = ClientRequestDTO.builder()
                 .name("Alex Mario")
                 .cpf("39669067081")
+                .email("alex@gmail.com")
                 .build();
         registrationClientService.saveClient(client);
 
         assertThat(client).isNotNull();
         assertThat(client.getCpf()).isNotNull();
+        assertThat(client.getEmail()).isNotNull();
+        assertThat(client.getName()).isNotNull();
     }
 
     @Test

@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN')")
 @RestController
 @RequestMapping("/api/users")
 public class UserController implements UserControllerOpenApi {
@@ -20,25 +21,21 @@ public class UserController implements UserControllerOpenApi {
     private final RegistrationUserService userService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<UserDTO> getAllUsers() {
         return userService.findAllUsers();
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public UserDTO getOneUser(@PathVariable Long userId) {
         return userService.findById(userId);
     }
 
     @PutMapping("/{userId}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public UserDTO update(@PathVariable Long userId, @RequestBody @Valid UserRequestUpdateDTO userRequestDTO) {
         return userService.updateUser(userId, userRequestDTO);
     }
 
     @DeleteMapping("/{userId}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long userId) {
         userService.removeUser(userId);
