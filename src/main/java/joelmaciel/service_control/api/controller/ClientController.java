@@ -16,13 +16,14 @@ import java.util.List;
 @RequiredArgsConstructor
 
 @RestController
+@PreAuthorize("hasAnyRole('USER')")
 @RequestMapping("/api/clients")
 public class ClientController implements ClientControllerOpenApi {
 
     private final RegistrationClientService registrationClientService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER')")
+
     public List<ClientDTO> getAllClients() {
         return registrationClientService.findAllClients();
     }
@@ -34,21 +35,17 @@ public class ClientController implements ClientControllerOpenApi {
     }
 
     @PutMapping("/{clientId}")
-    @PreAuthorize("hasAnyRole('USER')")
     public ClientDTO update(@PathVariable Long clientId, @RequestBody @Valid ClientRequestUpdateDTO clientRequestDTO) {
         return registrationClientService.updateClient(clientId, clientRequestDTO);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public ClientDTO saveClient(@RequestBody @Valid ClientRequestDTO clientRequestDTO) {
         return registrationClientService.saveClient(clientRequestDTO);
     }
 
-
     @DeleteMapping("/{clientId}")
-    @PreAuthorize("hasAnyRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long clientId) {
         registrationClientService.removeClient(clientId);

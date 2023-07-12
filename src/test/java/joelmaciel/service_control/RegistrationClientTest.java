@@ -14,7 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class RegistrationClientUnitTest {
+public class RegistrationClientTest {
 
     @Autowired
     private RegistrationClientService registrationClientService;
