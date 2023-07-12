@@ -202,7 +202,7 @@ public class RegistrationServiceProvideIT {
 
         LoginData loginData = new LoginData(roleService, userRepository, passwordEncoder);
         loginData.initializeRoles();
-        userDTO = loginData.createUser();
+        userDTO = loginData.createUserAdmin();
         loginDTO = loginData.createLogin();
 
         ClientIdRequestDTO clientIdRequestDTO = ClientIdRequestDTO.builder()

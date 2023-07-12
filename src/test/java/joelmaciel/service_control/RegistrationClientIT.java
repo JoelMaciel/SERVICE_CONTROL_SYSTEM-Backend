@@ -128,7 +128,7 @@ public class RegistrationClientIT {
     }
 
     @Test
-    public void shouldReturnStatus201_WhenRegisteringClient() {
+    public void shouldReturnStatus200_WhenRegisteringClient() {
         given()
                 .body(jsonCorrectClient)
                 .contentType(ContentType.JSON)
@@ -200,7 +200,7 @@ public class RegistrationClientIT {
 
         LoginData loginData = new LoginData(roleService, userRepository, passwordEncoder);
         loginData.initializeRoles();
-        userDTO = loginData.createUser();
+        userDTO = loginData.createUserAdmin();
         loginDTO = loginData.createLogin();
 
         ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()

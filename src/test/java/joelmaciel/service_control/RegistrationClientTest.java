@@ -27,6 +27,7 @@ public class RegistrationClientTest {
         ClientRequestDTO clientDTO = ClientRequestDTO.builder()
                 .name("Joel")
                 .cpf("28816044047")
+                .email("joel02@bol.com")
                 .build();
         Client client = ClientRequestDTO.toModel(clientDTO);
         clientRepository.save(client);
@@ -43,11 +44,14 @@ public class RegistrationClientTest {
         ClientRequestDTO client = ClientRequestDTO.builder()
                 .name("Alex Mario")
                 .cpf("39669067081")
+                .email("alex@gmail.com")
                 .build();
         registrationClientService.saveClient(client);
 
         assertThat(client).isNotNull();
         assertThat(client.getCpf()).isNotNull();
+        assertThat(client.getEmail()).isNotNull();
+        assertThat(client.getName()).isNotNull();
     }
 
     @Test

@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-public class RegistrationServiceProvidedUnitTest {
+public class RegistrationServiceProvidedTest {
 
     @Autowired
     private RegistrationServiceProvidedService registrationServiceProvidedService;

@@ -38,11 +38,29 @@ public class LoginData {
         roleService.save(roleUser);
     }
 
-    public UserDTO createUser() {
+    public UserDTO createUserAdmin() {
         UserRequestDTO userRequestDTO = UserRequestDTO.builder()
                 .username("JoelMaciel")
                 .cpf("83626640027")
                 .email("teste@teste.com")
+                .password("12345678")
+                .build();
+
+        Role role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+
+        User user = UserRequestDTO.toModel(userRequestDTO).toBuilder()
+                .password(passwordEncoder.encode(userRequestDTO.getPassword()))
+                .roles(Collections.singleton(role))
+                .build();
+
+        User savedUser = userRepository.save(user);
+        return UserDTO.toDTO(savedUser);
+    }
+    public UserDTO createUserRoleUser() {
+        UserRequestDTO userRequestDTO = UserRequestDTO.builder()
+                .username("MariaAbreu")
+                .cpf("27643914044")
+                .email("teste@test.com")
                 .password("12345678")
                 .build();
 

@@ -42,7 +42,7 @@ public class AuthenticationUserIT {
     private String jsonUserEmailInvalid;
     private String jsonIncorrectUsername;
     private String jsonIncorrectPassword;
-    private String jsonWithoutUsernameAndCpf;
+    private String jsonUserLoginWithoutUsernameAndPassword;
 
     private UserDTO userDTO;
     private LoginDTO loginDTO;
@@ -90,8 +90,8 @@ public class AuthenticationUserIT {
                 "/json/incorrect/incorrect-password-login-dto.json"
         );
 
-        jsonWithoutUsernameAndCpf = ResourceUtils.getContentFromResource(
-                "/json/incorrect/without-username-and-cpf-password-login-dto.json"
+        jsonUserLoginWithoutUsernameAndPassword = ResourceUtils.getContentFromResource(
+                "/json/incorrect/user-login-without-username-and-password-dto.json"
         );
 
         token = TokenUtils.getToken(port, jsonLoginCorrect);
@@ -130,10 +130,10 @@ public class AuthenticationUserIT {
     }
 
     @Test
-    public void shouldReturn400_WhenLoginWithoutUsernameAndCpf() {
+    public void shouldReturn400_WhenLoginWithoutUsernameAndPassword() {
         given()
                 .contentType("application/json")
-                .body(jsonWithoutUsernameAndCpf)
+                .body(jsonUserLoginWithoutUsernameAndPassword)
                 .when()
                 .post("/auth/login")
                 .then()
@@ -212,7 +212,7 @@ public class AuthenticationUserIT {
 
         LoginData loginData = new LoginData(roleService, userRepository, passwordEncoder);
         loginData.initializeRoles();
-        userDTO = loginData.createUser();
+        userDTO = loginData.createUserAdmin();
         loginDTO = loginData.createLogin();
 
     }
