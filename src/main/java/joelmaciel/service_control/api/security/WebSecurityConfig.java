@@ -51,17 +51,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/swagger-resources/**").permitAll().anyRequest().fullyAuthenticated()
                 .and()
                 .csrf().disable()
                 .cors();
         http.addFilterBefore(authenticationJwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
+
     @Override
     public void configure(WebSecurity web) throws Exception {
 
-        web.ignoring().antMatchers("/**.html", "/swagger-ui/index.html/**", "/v2/api-docs", "/webjars/**",
+        web.ignoring().antMatchers("/**.html", "/swagger-ui/index.html/**", "/v3/api-docs", "/webjars/**",
                 "/configuration/**", "swagger-resources/**");
 
     }
