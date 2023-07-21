@@ -30,6 +30,8 @@ import java.util.function.Consumer;
 public class SpringFoxConfig {
 
     @Bean
+
+
     public Docket apiDocket() {
         TypeResolver typeResolver = new TypeResolver();
 
