@@ -2,6 +2,7 @@ package joelmaciel.service_control.api.core.opeapi;
 
 
 import com.fasterxml.classmate.TypeResolver;
+import com.google.common.collect.Lists;
 import joelmaciel.service_control.api.exceptionhandle.Problem;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,29 +10,26 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RepresentationBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseBuilder;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
+import springfox.documentation.builders.*;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
 
 @Configuration
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig {
 
     @Bean
-
-
     public Docket apiDocket() {
         TypeResolver typeResolver = new TypeResolver();
 
@@ -46,10 +44,16 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.PATCH, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
-//                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+
+                .securitySchemes(Lists.newArrayList(apiKey()))
+                .securityContexts(Arrays.asList(securityContext()))
+
                 .apiInfo(apiInfo())
                 .tags(new Tag("Clients", "Client Registration"))
-                .tags(new Tag("Service Provided", "Control of Services Provided"));
+                .tags(new Tag("Authentication", "User Authentication"))
+                .tags(new Tag("Service Provided", "Control of Services Provided"))
+                .tags(new Tag("Users", "Listing and Updating Users"));
+
 
 
     }
@@ -68,6 +72,45 @@ public class SpringFoxConfig {
                         .build()
         );
     }
+
+    private HttpAuthenticationScheme authenticationScheme() {
+        return HttpAuthenticationScheme.JWT_BEARER_BUILDER.name("Authorization").build();
+    }
+    @Bean
+    public SecurityConfiguration security() {
+        return SecurityConfigurationBuilder.builder().scopeSeparator(",")
+                .additionalQueryStringParams(null)
+                .useBasicAuthenticationWithAccessCodeGrant(false).build();
+    }
+
+
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations(
+                "classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations(
+                "classpath:/META-INF/resources/webjars/");
+    }
+
+
+    private ApiKey apiKey() {
+        return new ApiKey("apiKey", "Authorization", "header");
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder().securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any()).build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope(
+                "global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("apiKey",
+                authorizationScopes));
+    }
+
+
 
     private List<Response> globalPostPutResponseMessages() {
         return Arrays.asList(
