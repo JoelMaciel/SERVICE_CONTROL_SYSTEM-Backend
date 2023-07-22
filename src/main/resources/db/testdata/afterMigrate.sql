@@ -16,11 +16,11 @@ alter table service_provided auto_increment = 1;
 alter table role auto_increment = 1;
 alter table user_role auto_increment = 1;
 
-insert into client (id, name, cpf, email, creation_date, update_date) values (1, 'Cara de Bodó', '81451095074', 'cara@teste.com', utc_timestamp, utc_timestamp);
-insert into client (id, name, cpf, email, creation_date, update_date) values (2, 'Suvaco de Potó', '66287125080', 'suvaco@teste.com', utc_timestamp, utc_timestamp);
-insert into client (id, name, cpf, email, creation_date, update_date) values (3, 'Luz Estrela', '41719379068', 'luz@teste.com',  utc_timestamp, utc_timestamp);
-insert into client (id, name, cpf, email, creation_date, update_date) values (4, 'Milord', '42664776002', 'milord@teste.com', utc_timestamp, utc_timestamp);
-insert into client (id, name, cpf, email, creation_date, update_date) values (5, 'Naruto Maria Juana', '38228898061', 'romulo@teste.com', utc_timestamp, utc_timestamp);
+insert into client (id, name, cpf, email, creation_date, update_date) values (1, 'Lucas Nascimento', '81451095074', 'cara@teste.com', utc_timestamp, utc_timestamp);
+insert into client (id, name, cpf, email, creation_date, update_date) values (2, 'Marta Pereira', '66287125080', 'suvaco@teste.com', utc_timestamp, utc_timestamp);
+insert into client (id, name, cpf, email, creation_date, update_date) values (3, 'Raimundo Gomes', '41719379068', 'luz@teste.com',  utc_timestamp, utc_timestamp);
+insert into client (id, name, cpf, email, creation_date, update_date) values (4, 'Natalia Maria', '42664776002', 'milord@teste.com', utc_timestamp, utc_timestamp);
+insert into client (id, name, cpf, email, creation_date, update_date) values (5, 'Bruno Costa', '38228898061', 'romulo@teste.com', utc_timestamp, utc_timestamp);
 
 insert into user (id, username, cpf, email, password, creation_date, update_date) values (1, 'JoelMaciel', '05735094092', 'joel@teste.com', '$2a$10$EeVAODuyBscvNB2ZdifeBeQMyxZamlZSbbL0NBDHXMtXC9eJgR9HC', utc_timestamp, utc_timestamp);
 insert into user (id, username, cpf, email, password, creation_date, update_date) values (2, 'MariaAbreu', '71388619075', 'maria@teste.com', '$2a$10$EeVAODuyBscvNB2ZdifeBeQMyxZamlZSbbL0NBDHXMtXC9eJgR9HC', utc_timestamp, utc_timestamp);
